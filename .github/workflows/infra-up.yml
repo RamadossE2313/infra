@@ -1,0 +1,8 @@
+# name: 'Create Azure resources'
+# on:
+#    push:
+#      branch
+#        - main
+#        - develop
+
+# jobs:
