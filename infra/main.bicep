@@ -25,6 +25,5 @@ module resources 'resources.bicep' = {
   params: {
     environmentName: environmentName
     locationName: locationName
-    tenentId: tenentId
   }
 }

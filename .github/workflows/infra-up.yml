@@ -1,12 +1,39 @@
-name: 'Create azure resources'
+name: Build and Deploy Infrastructure
+
 on:
   push:
     branches:
-    - main
-    - develop
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
   workflow_dispatch:
-  
+
 jobs:
-  my_job:
-    name: deploy to staging
-    runs-on: ubuntu-22.04
+  create-infra:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Login to Azure
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Step 3: Deploy Bicep Infrastructure with Inline Parameters
+      - name: Deploy Infrastructure
+        run: |
+          az deployment sub create \
+            --location '${{ secrets.AZURE_LOCATION }}' \
+            --template-file infra/main.bicep \
+            --parameters environmentName='${{ secrets.AZURE_ENV_NAME }}' locationName='${{ secrets.AZURE_LOCATION }}'
+
+      # Step 4: Verify Deployment
+      - name: Verify Deployment
+        run: |
+          az resource list --resource-group 'rg-${{ secrets.AZURE_ENV_NAME }}'
