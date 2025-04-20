@@ -10,7 +10,7 @@ param environmentName string
 param locationName string
 
 resource keyVault 'Microsoft.KeyVault/vaults@2024-11-01' = {
-  name: 'kv-${environmentName}'
+  name: 'kv-ram-${environmentName}'
   location: locationName
   properties: {
     enableRbacAuthorization: true
