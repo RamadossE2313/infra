@@ -1,8 +1,12 @@
-# name: 'Create Azure resources'
-# on:
-#    push:
-#      branch
-#        - main
-#        - develop
-
-# jobs:
+name: 'Create azure resources'
+on:
+  push:
+    branches:
+    - main
+    - develop
+  workflow_dispatch:
+  
+jobs:
+  my_job:
+    name: deploy to staging
+    runs-on: ubuntu-22.04
